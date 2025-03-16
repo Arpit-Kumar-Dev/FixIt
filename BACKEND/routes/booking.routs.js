@@ -1,0 +1,10 @@
+const express = require("express")
+const router = express.Router()
+const { CreateBooking,UserBooking,DeleteBooking,UpdateStatus,GetAllBookings,get_all_service_providers_booking} = require("../controllers/Booking.controllers") 
+router.route("/makeBooking").post(CreateBooking)
+router.route("/UserBookings").post(UserBooking) 
+router.route("/SPBookings").post(get_all_service_providers_booking) 
+router.route("/DeleteBookings").post(DeleteBooking)
+router.route("/ChangeStatus").post(UpdateStatus)
+router.route("/all_Booking").get(GetAllBookings)
+module.exports = router 
