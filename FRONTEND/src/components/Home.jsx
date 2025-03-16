@@ -71,50 +71,45 @@ const Home = () => {
         setServicMessage("");
     };
 
-    // 🔍 **Filter service providers based on the search query**
     const filteredProviders = serviceProviders.filter(provider => 
         provider.Occupation.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">
+        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-4 sm:p-6">
             {user ? (
                 <>
-                    {/* Header */}
                     <motion.div 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="flex items-center justify-between p-6 bg-gray-900/70 backdrop-blur-md rounded-xl shadow-lg border border-gray-700"
+                        className="flex flex-wrap items-center justify-between p-4 sm:p-6 bg-gray-900/70 backdrop-blur-md rounded-xl shadow-lg border border-gray-700"
                     >
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-4 sm:gap-6">
                             <motion.img 
                                 src={user.profilePic} 
                                 alt="Profile"
-                                className="w-16 h-16 rounded-full border-4 border-red-500 shadow-lg"
+                                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-4 border-red-500 shadow-lg"
                                 whileHover={{ scale: 1.1 }}
                             />
                             <div>
-                                <h2 className="text-xl font-semibold">{user.name}</h2>
-                                <p className="text-gray-400">{user.email}</p>
+                                <h2 className="text-lg sm:text-xl font-semibold">{user.name}</h2>
+                                <p className="text-gray-400 text-sm sm:text-base">{user.email}</p>
                             </div>
                         </div>
                         
-                        {/* Search Bar */}
                         <input 
                             type="text" 
-                            className="w-80 h-12 bg-gray-800/60 text-white placeholder-gray-500 px-4 rounded-full outline-none focus:ring-2 focus:ring-red-500 transition"
+                            className="w-full sm:w-80 h-10 sm:h-12 bg-gray-800/60 text-white placeholder-gray-500 px-4 rounded-full outline-none focus:ring-2 focus:ring-red-500 transition"
                             placeholder="Search occupation..."
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
 
                         <Navbar user={user} />
-                        <h1 className="text-white text-3xl mr-10 font-bold cursor-pointer" onClick={handleLogout}>FixIt.com</h1>
                     </motion.div>
 
-                    {/* Service Providers */}
-                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         <AnimatePresence>
                             {filteredProviders.length > 0 ? (
                                 filteredProviders.map(provider => (
@@ -124,25 +119,25 @@ const Home = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 20 }}
                                         transition={{ duration: 0.5 }}
-                                        className="relative h-40 bg-gray-800/70 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                                        className="relative bg-gray-800/70 p-4 sm:p-6 rounded-2xl shadow-lg border border-gray-700 transform transition hover:scale-105 hover:shadow-xl"
                                     >
                                         <div className="flex items-center gap-4">
                                             <img 
                                                 src={provider.Profile_imageUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${provider.name}`} 
                                                 alt={provider.name} 
-                                                className="w-20 h-20 rounded-full border-4 border-red-500 shadow-md "
+                                                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 border-red-500 shadow-md"
                                             />
                                             <div>
-                                                <h3 className="text-lg font-semibold">{provider.name}</h3>
-                                                <p className="text-gray-400">{provider.Servicetype}</p>
-                                                <p className="text-gray-500">{provider.Occupation}</p>
+                                                <h3 className="text-base sm:text-lg font-semibold">{provider.name}</h3>
+                                                <p className="text-gray-400 text-sm sm:text-base">{provider.Servicetype}</p>
+                                                <p className="text-gray-500 text-xs sm:text-sm">{provider.Occupation}</p>
                                             </div>
                                         </div>
                                         <motion.button 
                                             onClick={() => handleBooking(provider)} 
                                             whileHover={{ scale: 1.1 }}
                                             whileTap={{ scale: 0.9 }}
-                                            className="absolute bottom-4 right-4 px-7 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200"
+                                            className="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
                                         >
                                             Book Now
                                         </motion.button>
@@ -157,38 +152,6 @@ const Home = () => {
             ) : (
                 <p className="text-center text-lg">Loading user data...</p>
             )}
-
-            {/* Booking Modal */}
-            <AnimatePresence>
-                {showModal && (
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-                    >
-                        <motion.div 
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            className="bg-gray-900 p-6 rounded-2xl shadow-xl w-96"
-                        >
-                            <h2 className="text-lg font-semibold">Book {selectedProvider?.name}</h2>
-                            <input 
-                                type="text" 
-                                value={servicMessage} 
-                                onChange={(e) => setServicMessage(e.target.value)} 
-                                className="w-full border p-3 mt-2 rounded-lg bg-gray-800 text-white placeholder-gray-500"
-                                placeholder="Enter booking details..."
-                            />
-                            <div className="flex justify-end mt-4">
-                                <button onClick={() => setShowModal(false)} className="mr-2 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition">Cancel</button>
-                                <button onClick={handleSubmitBooking} className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">Submit</button>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </div>
     );
 };
