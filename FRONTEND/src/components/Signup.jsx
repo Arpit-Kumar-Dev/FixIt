@@ -52,7 +52,7 @@ const Signup = () => {
             data.append("address", JSON.stringify(formData.address));
             data.append("file", profileImage);
 
-            const res = await axios.post("http://localhost:8000/api/v1/user/signup", data, {
+            const res = await axios.post("https://fixit-g4s1.onrender.com/api/v1/user/signup", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 

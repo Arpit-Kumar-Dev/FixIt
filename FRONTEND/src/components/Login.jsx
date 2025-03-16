@@ -15,7 +15,7 @@ const Login = () => {
         setError(null);
 
         try {
-            const response = await axios.post("http://localhost:8000/api/v1/user/login", { email, password });
+            const response = await axios.post("https://fixit-g4s1.onrender.com/api/v1/user/login", { email, password });
             const token = response.data.token;
             localStorage.setItem("token", token);
             navigate("/Home");

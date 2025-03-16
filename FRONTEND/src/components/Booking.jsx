@@ -33,7 +33,7 @@ const Booking = () => {
 
     const handleCancel = async (bookingId) => {
         try {
-            await axios.post("http://localhost:8000/api/v1/booking/DeleteBookings", { bookingId });
+            await axios.post("https://fixit-g4s1.onrender.com/api/v1/booking/DeleteBookings", { bookingId });
             setBookings(prev => prev.filter(booking => booking._id !== bookingId));
         } catch (error) {
             console.error("Error canceling booking:", error.response?.data || error);
@@ -43,7 +43,7 @@ const Booking = () => {
     const handleChangeStatus = async (bookingId, currentStatus) => {
         const newStatus = currentStatus === "Pending" ? "Confirmed" : "Pending";
         try {
-            await axios.post(`http://localhost:8000/api/v1/booking/ChangeStatus`, { Id: bookingId, status: newStatus });
+            await axios.post(`https://fixit-g4s1.onrender.com/api/v1/booking/ChangeStatus`, { Id: bookingId, status: newStatus });
             setBookings(prev => prev.map(booking =>
                 booking._id === bookingId ? { ...booking, status: newStatus } : booking
             ));

@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const Home = () => {
     const [user, setUser] = useState(null);
     const [serviceProviders, setServiceProviders] = useState([]);
-    const [searchQuery, setSearchQuery] = useState(""); // State for search input
+    const [searchQuery, setSearchQuery] = useState(""); 
     const [showModal, setShowModal] = useState(false);
     const [servicMessage, setServicMessage] = useState("");
     const [selectedProvider, setSelectedProvider] = useState(null);
@@ -41,7 +41,7 @@ const Home = () => {
     }, [navigate]);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/ServiceProvider/get_SP")
+        axios.get("https://fixit-g4s1.onrender.com/api/v1/ServiceProvider/get_SP")
             .then(response => setServiceProviders(response.data))
             .catch(error => console.error("Error fetching service providers", error));
     }, []);
@@ -59,12 +59,12 @@ const Home = () => {
     };
 
     const handleSubmitBooking = () => {
-        axios.post("http://localhost:8000/api/v1/booking/makeBooking", {
+        axios.post("https://fixit-g4s1.onrender.com/api/v1/booking/makeBooking", {
             userId: user.id,
             SPId: selectedProvider._id,
             service: servicMessage
         });
-        axios.post("http://localhost:8000/api/v1/Mail/sendBookingMail", {
+        axios.post("https://fixit-g4s1.onrender.com/api/v1/Mail/sendBookingMail", {
             name: user.name, to: user.email, body: `Your booking has been created with ${selectedProvider.name}. They will be coming soon.`, sp_name: selectedProvider.name
         });
         setShowModal(false);

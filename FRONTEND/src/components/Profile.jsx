@@ -16,7 +16,7 @@ const Profile = () => {
         if (userId) {
             const fetchUser = async () => {
                 try {
-                    const response = await axios.post("http://localhost:8000/api/v1/user/users", { userId });
+                    const response = await axios.post("https://fixit-g4s1.onrender.com/api/v1/user/users", { userId });
                     console.log("API Response:", response.data);
                     setUser(response.data);
                 } catch (err) {
