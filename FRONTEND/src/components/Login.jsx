@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -28,6 +29,9 @@ const Login = () => {
 
     return ( 
         <div className="flex justify-center items-center h-screen  bg-gradient-to-br from-black via-gray-900 to-gray-800">
+            <Helmet>
+          <title>FixIt.com</title>
+           </Helmet>
             <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-96 border-2 border-red-500">
                 <h2 className="text-3xl font-bold text-red-500 text-center mb-6">FixIt Login</h2>
                 
