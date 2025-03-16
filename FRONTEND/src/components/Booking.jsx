@@ -13,14 +13,14 @@ const Booking = () => {
 
     useEffect(() => {
         if (userId) {
-            axios.post("http://localhost:8000/api/v1/booking/UserBookings", { userId })
+            axios.post("https://fixit-g4s1.onrender.com/api/v1/booking/UserBookings", { userId })
                 .then(response => setBookings(response.data))
                 .catch(error => console.error("Error fetching bookings", error));
         }
     }, [userId]);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/ServiceProvider/get_SP")
+        axios.get("https://fixit-g4s1.onrender.com/api/v1/ServiceProvider/get_SP")
             .then(response => {
                 const providerMap = response.data.reduce((acc, provider) => {
                     acc[provider._id] = provider;
