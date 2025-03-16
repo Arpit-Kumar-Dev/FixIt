@@ -59,7 +59,7 @@ const SPSignup = () => {
             data.append("service_description", formData.service_description);
             data.append("file", profileImage);
 
-            const res = await axios.post("http://localhost:8000/api/v1/ServiceProvider/singup", data, {
+            const res = await axios.post("https://fixit-g4s1.onrender.com/api/v1/ServiceProvider/singup", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
         
