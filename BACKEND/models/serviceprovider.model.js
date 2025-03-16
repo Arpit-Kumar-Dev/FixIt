@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require("validator")
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
 const { PutObjectCommand } = require("../util/putObject");
 const serviceProviderSchema = new mongoose.Schema({
