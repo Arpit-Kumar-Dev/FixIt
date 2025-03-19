@@ -19,7 +19,7 @@ const SPLogin = () => {
             const response = await axios.post("https://fixit-g4s1.onrender.com/api/v1/ServiceProvider/login", { email, password });
             const token = response.data.token;
             localStorage.setItem("token", token);
-            navigate("/Home");
+            navigate("/Sphome");
         } catch (err) {
             setError(err.response?.data?.message||"Login failed");
         } finally {
