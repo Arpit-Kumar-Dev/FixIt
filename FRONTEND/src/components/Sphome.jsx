@@ -28,7 +28,7 @@ export default function Sphome() {
         name: decoded.name || "N/A",
         email: decoded.email || "N/A",
         profilePic:
-          decoded.imageURL ||
+          decoded.ProfileimageUrl ||
           `https://api.dicebear.com/7.x/initials/svg?seed=${decoded.name}`,
       });
     } catch (error) {
