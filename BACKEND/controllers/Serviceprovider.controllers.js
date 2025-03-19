@@ -37,8 +37,8 @@ async function loginSP(req, res) {
     const { email, password } = req.body;
 
     try {
-        const user = await ServiceProvider.login(email, password);
-        const token = await createToken(user._id, user.name, user.email);
+        const Sp = await ServiceProvider.login(email, password);
+        const token = await createToken(Sp._id, Sp.name, Sp.email);
         res.status(201).json({ email, token });
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -71,7 +71,7 @@ const Home = () => {
         setServicMessage("");
     };
 
-    // 🔍 **Filter service providers based on the search query**
+
     const filteredProviders = serviceProviders.filter(provider => 
         provider.Occupation.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -80,17 +80,18 @@ const Home = () => {
         <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">
             {user ? (
                 <>
-                    {/* Header */}
+               
                     <motion.div 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="flex items-center justify-between p-6 bg-gray-900/70 backdrop-blur-md rounded-xl shadow-lg border border-gray-700"
                     >
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-6" >
                             <motion.img 
                                 src={user.profilePic} 
                                 alt="Profile"
+                                onClick={()=>{navigate("/profile",{ state: { userId: user?.id } })}}
                                 className="w-16 h-16 rounded-full border-4 border-red-500 shadow-lg"
                                 whileHover={{ scale: 1.1 }}
                             />
@@ -100,7 +101,7 @@ const Home = () => {
                             </div>
                         </div>
                         
-                        {/* Search Bar */}
+                      
                         <input 
                             type="text" 
                             className="w-80 h-12 bg-gray-800/60 text-white placeholder-gray-500 px-4 rounded-full outline-none focus:ring-2 focus:ring-red-500 transition"
@@ -113,7 +114,7 @@ const Home = () => {
                         <h1 className="text-white text-3xl mr-10 font-bold cursor-pointer" onClick={handleLogout}>FixIt.com</h1>
                     </motion.div>
 
-                    {/* Service Providers */}
+                  
                     <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <AnimatePresence>
                             {filteredProviders.length > 0 ? (
@@ -158,7 +159,6 @@ const Home = () => {
                 <p className="text-center text-lg">Loading user data...</p>
             )}
 
-            {/* Booking Modal */}
             <AnimatePresence>
                 {showModal && (
                     <motion.div 

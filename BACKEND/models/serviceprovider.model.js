@@ -125,15 +125,15 @@ serviceProviderSchema.statics.login = async function (email, password) {
     if (!validator.isEmail(email)) {
         throw Error("Not a proper Email");
     }
-    const user = await this.findOne({ email })
-    if (!user) {
+    const Sp = await this.findOne({ email })
+    if (!Sp) {
         throw Error("account not found")
     }
-    const match = await bcrypt.compare(password, user.password)
+    const match = await bcrypt.compare(password, Sp.password)
     if (!match) {
         throw Error("incorect Password")
     }
-    return user
+    return Sp
 }
 
 serviceProviderSchema.statics.getAllServiceProviders= async ()=>{  
