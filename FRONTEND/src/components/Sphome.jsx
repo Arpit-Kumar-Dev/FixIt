@@ -53,7 +53,7 @@ export default function Sphome() {
           <button
             onClick={() => {
               localStorage.removeItem("token");
-              navigate("/");
+              navigate("/SPlogin");
             }}
             className="mt-6 px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
           >
