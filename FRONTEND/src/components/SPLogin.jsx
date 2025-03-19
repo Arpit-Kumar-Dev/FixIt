@@ -69,7 +69,7 @@ const SPLogin = () => {
 
                 <p className="text-center text-gray-400 text-sm mt-4">Don't have an account?</p>
                 <button
-                    onClick={() => navigate("/signup")}
+                    onClick={() => navigate("/SPsignup")}
                     className="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition mt-2"
                 >
                     Sign Up

@@ -38,7 +38,7 @@ async function loginSP(req, res) {
 
     try {
         const Sp = await ServiceProvider.login(email, password);
-        const token = await createToken(Sp._id, Sp.name, Spy.email);
+        const token = await createToken(Sp._id, Sp.name, Sp.email,Sp.profileImageUrl);
         res.status(201).json({ email, token });
     } catch (error) {
         res.status(400).json({ error: error.message });

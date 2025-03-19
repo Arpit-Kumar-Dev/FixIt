@@ -136,7 +136,7 @@ serviceProviderSchema.statics.login = async function (email, password) {
     return Sp
 }
 
-serviceProviderSchema.statics.getAllServiceProviders= async ()=>{  
+serviceProviderSchema.statics.getAllServiceProviders = async ()=>{  
    const all_providers = await ServiceProvider.find({})
    return all_providers
 }
