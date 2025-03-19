@@ -1,4 +1,5 @@
 const ServiceProvider = require("../models/serviceprovider.model");
+
 const jwt = require("jsonwebtoken");
 async function signupUser(req, res) {
     console.log("Request body:", req.body);
@@ -29,8 +30,8 @@ async function signupUser(req, res) {
 
 
 
-async function createToken(id, name, email) {
-    return jwt.sign({ _id: id, name, email }, process.env.SECRET, { expiresIn: "1h" });
+async function createToken(id, name, email,ProfileimageUrl) {
+    return jwt.sign({ _id: id, name, email,ProfileimageUrl }, process.env.SECRET, { expiresIn: "1h" });
 }
 
 async function loginSP(req, res) {
