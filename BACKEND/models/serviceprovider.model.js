@@ -112,7 +112,7 @@ serviceProviderSchema.statics.signup = async function (name, email, password, ph
         _id: serviceProvider._id,
         name: serviceProvider.name,
         email: serviceProvider.email,
-        profileImageUrl: serviceProvider.Profile_imageUrl, 
+        Profile_imageUrl: serviceProvider.Profile_imageUrl, 
         phoneNumber: serviceProvider.phoneNumber,
     };
 };
