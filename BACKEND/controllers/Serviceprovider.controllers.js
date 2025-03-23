@@ -56,5 +56,10 @@ async function get_all_service_providers(req, res) {
         res.status(500).json({ error: "Failed to fetch service providers" });
     }
 }
+async function Set_price(req,res){
+   const [SP_id,price]=req.body
+       const response =await ServiceProvider.Set_price(SP_id,price)
+       res.json(response)
+}
 
-module.exports = { signupUser, loginSP, get_all_service_providers };
+module.exports = { signupUser, loginSP, Set_price,get_all_service_providers };

@@ -32,8 +32,12 @@ const serviceProviderSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    price:{
+         type:Number,
+         required:false,
+         default: 0
+    },
     address:{
-
             pincode:Number,
             city:String,
             state:String,
@@ -114,6 +118,7 @@ serviceProviderSchema.statics.signup = async function (name, email, password, ph
         email: serviceProvider.email,
         Profile_imageUrl: serviceProvider.Profile_imageUrl, 
         phoneNumber: serviceProvider.phoneNumber,
+        price:serviceProvider.price
     };
 };
 
@@ -134,6 +139,23 @@ serviceProviderSchema.statics.login = async function (email, password) {
         throw Error("incorect Password")
     }
     return Sp
+}
+serviceProviderSchema.statics.Set_price= async(sp_id,price)=>{
+    try {
+        const result = await this.findOneAndUpdate(
+            { _id: sp_id },  
+            { $set: { price: price } },  // Updating the price field
+            { new: true }  // Return the updated document
+        );
+
+        if (!result) {
+            throw new Error('Service Provider not found');
+        }
+
+        return result;
+    } catch (error) {
+        throw new Error(`Error updating price: ${error.message}`);
+    }
 }
 
 serviceProviderSchema.statics.getAllServiceProviders = async ()=>{  
