@@ -30,8 +30,8 @@ async function signupUser(req, res) {
 
 
 
-async function createToken(id, name, email,ProfileimageUrl) {
-    return jwt.sign({ _id: id, name, email,ProfileimageUrl }, process.env.SECRET, { expiresIn: "1h" });
+async function createToken(id, name, email,Profile_imageUrl) {
+    return jwt.sign({ _id: id, name, email,Profile_imageUrl }, process.env.SECRET, { expiresIn: "1h" });
 }
 
 async function loginSP(req, res) {

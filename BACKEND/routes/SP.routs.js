@@ -7,6 +7,6 @@ router.use(fileUpload());
 router.route("/singup").post(signupUser)
 router.route("/login").post(loginSP)
 router.route("/get_SP").get(get_all_service_providers)
-router.route("/setprice").get(Set_price)
+router.route("/setprice").post(Set_price)
 
 module.exports = router

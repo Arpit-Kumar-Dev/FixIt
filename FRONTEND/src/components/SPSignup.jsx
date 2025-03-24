@@ -64,7 +64,7 @@ const SPSignup = () => {
             });
         
             localStorage.setItem("token", res.data.token);
-            navigate("/Home");
+            navigate("/Sphome");
         } catch (err) {
             setError(`${err.response?.data?.message}` );
         } finally {
