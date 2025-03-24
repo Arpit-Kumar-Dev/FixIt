@@ -57,7 +57,7 @@ async function get_all_service_providers(req, res) {
     }
 }
 async function Set_price(req,res){
-   const [SP_id,price]=req.body
+      const {SP_id,price}=req.body
        const response =await ServiceProvider.Set_Price(SP_id,price)
        res.json(response)
 }

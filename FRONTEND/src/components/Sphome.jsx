@@ -44,7 +44,7 @@ export default function Sphome() {
           <img
             src={SP.profilePic}
             alt="Profile"
-            className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500"
+            className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500 object-cover"
           />
           <h1 className="mt-4 text-2xl font-semibold text-gray-800">
             Welcome, {SP.name} 👋
