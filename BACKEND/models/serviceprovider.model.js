@@ -140,7 +140,7 @@ serviceProviderSchema.statics.login = async function (email, password) {
     }
     return Sp
 }
-serviceProviderSchema.statics.Set_price= async(sp_id,price)=>{
+serviceProviderSchema.statics.Set_Price= async(sp_id,price)=>{
     try {
         const result = await this.findOneAndUpdate(
             { _id: sp_id },  
