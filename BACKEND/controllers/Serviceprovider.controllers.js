@@ -58,7 +58,8 @@ async function get_all_service_providers(req, res) {
 }
 async function Set_price(req,res){
       const {SP_id,price}=req.body
-       const response =await ServiceProvider.Set_Price(SP_id,price)
+       const SP_ID = new mongoose.Types.ObjectId(SP_id);
+       const response =await ServiceProvider.Set_Price(SP_ID,price)
        res.json(response)
 }
 

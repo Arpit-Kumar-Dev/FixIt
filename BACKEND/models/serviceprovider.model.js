@@ -125,7 +125,6 @@ serviceProviderSchema.statics.signup = async function (name, email, password, ph
 serviceProviderSchema.statics.login = async function (email, password) {
     if (!email|| !password) {
         throw Error("All fildes are required.")
-
     }
     if (!validator.isEmail(email)) {
         throw Error("Not a proper Email");
@@ -140,12 +139,12 @@ serviceProviderSchema.statics.login = async function (email, password) {
     }
     return Sp
 }
-serviceProviderSchema.statics.Set_Price= async(sp_id,price)=>{
+serviceProviderSchema.statics.Set_Price= async(SP_ID,price)=>{
     try {
         const result = await this.findOneAndUpdate(
-            { _id: sp_id },  
-            { $set: { price: price } },  // Updating the price field
-            { new: true }  // Return the updated document
+            { _id: SP_ID },  
+            { $set: { price: price } },  
+            { new: true } 
         );
 
         if (!result) {
