@@ -1,5 +1,5 @@
 const ServiceProvider = require("../models/serviceprovider.model");
-
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 async function signupUser(req, res) {
     console.log("Request body:", req.body);
