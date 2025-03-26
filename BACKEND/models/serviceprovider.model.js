@@ -3,6 +3,7 @@ const validator = require("validator")
 const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
 const { PutObjectCommand } = require("../util/putObject");
+const { json } = require('express');
 const serviceProviderSchema = new mongoose.Schema({
     Profile_imageUrl:{
         type:String,
@@ -151,7 +152,7 @@ serviceProviderSchema.statics.Set_Price= async function (SP_ID,price){
             throw new Error('Service Provider not found');
         }
 
-        return result;
+        return json("price is updated");
     } catch (error) {
         throw new Error(`Error updating price: ${error.message}`);
     }
