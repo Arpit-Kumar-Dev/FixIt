@@ -152,7 +152,7 @@ serviceProviderSchema.statics.Set_Price= async function (SP_ID,price){
             throw new Error('Service Provider not found');
         }
 
-        return json("price is updated");
+        return result.price;
     } catch (error) {
         throw new Error(`Error updating price: ${error.message}`);
     }
