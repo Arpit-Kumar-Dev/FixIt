@@ -1,0 +1,13 @@
+.head{
+    display: flex;
+    align-Items:align-items;
+    gap: 20px; 
+    padding: 18px;
+   background: rgb(11,10,19);
+background: linear-gradient(90deg, rgba(11,10,19,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
+}
+.text{
+    color: white;
+    font-size: 30px;
+    font-family:Arial, Helvetica, sans-serif;
+}
