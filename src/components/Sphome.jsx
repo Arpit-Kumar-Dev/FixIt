@@ -88,7 +88,7 @@ export default function Sphome() {
             className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl shadow-lg transition duration-300 font-semibold"
           >
             Logout
-          </button>
+          </button> 
         </div>
       </nav>
 
