@@ -27,14 +27,10 @@ async function signupUser(req, res) {
         res.status(400).json({ error: error.message });
     }
 }
-
-
-
 async function createToken(id, name, email,Profile_imageUrl) {
     return jwt.sign({ _id: id, name, email,Profile_imageUrl }, process.env.SECRET, { expiresIn: "1h" });
 }
-
-async function loginSP(req, res) {
+async function loginSP(req, res) { 
     const { email, password } = req.body;
 
     try {
@@ -46,7 +42,6 @@ async function loginSP(req, res) {
         res.status(400).json({ error: error.message });
     }
 }
-
 async function get_all_service_providers(req, res) {
     try {
         const all_service_providers = await ServiceProvider.getAllServiceProviders();
@@ -59,8 +54,7 @@ async function get_all_service_providers(req, res) {
 async function Set_price(req,res){
       const {SP_id,price}=req.body
        const SP_ID = new mongoose.Types.ObjectId(SP_id);
-       const response =await ServiceProvider.Set_Price(SP_ID,price)
+       const response = await ServiceProvider.Set_Price(SP_ID,price)
        res.json(response)
 }
-
 module.exports = { signupUser, loginSP, Set_price,get_all_service_providers };

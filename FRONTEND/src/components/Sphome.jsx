@@ -26,7 +26,7 @@ export default function Sphome() {
       setSP({
         id: decoded._id || "N/A",
         name: decoded.name || "N/A",
-        email: decoded.email || "N/A",
+        email: decoded.email || "N/A", // still kept in state if needed later
         profilePic:
           decoded.Profile_imageUrl ||
           `https://api.dicebear.com/7.x/initials/svg?seed=${decoded.name}`,
@@ -38,31 +38,64 @@ export default function Sphome() {
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-      {SP ? (
-        <div className="bg-white shadow-lg rounded-lg p-8 max-w-md text-center">
-          <img
-            src={SP.profilePic}
-            alt="Profile"
-            className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500 object-cover"
-          />
-          <h1 className="mt-4 text-2xl font-semibold text-gray-800">
-            Welcome, {SP.name} 👋
-          </h1>
-          <p className="text-gray-600">{SP.email}</p>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white">
+      
+      {/* 🧭 Navigation Bar */}
+      <nav className="w-full px-10 py-5 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-md shadow-md z-50">
+        
+        {/* 🔗 Left: Profile Info + Nav Links */}
+        {SP && (
+          <div className="flex items-center gap-6">
+            <img
+              src={SP.profilePic}
+              alt="Profile"
+              className="w-16 h-16 rounded-full border-4 border-red-500 object-cover"
+            />
+            <h2 className="text-2xl font-bold text-white">{SP.name}</h2>
+            <ul className="flex gap-6 ml-10 text-lg font-medium">
+              <li
+                onClick={() => navigate("/Sphome")}
+                className="cursor-pointer hover:text-red-500 transition duration-300 hover:underline underline-offset-8 decoration-red-500"
+              >
+                Dashboard
+              </li>
+              <li
+                onClick={() => navigate("/SPbookings")}
+                className="cursor-pointer hover:text-red-500 transition duration-300 hover:underline underline-offset-8 decoration-red-500"
+              >
+                Bookings
+              </li>
+              <li
+                onClick={() => navigate("/SPprofile")}
+                className="cursor-pointer hover:text-red-500 transition duration-300 hover:underline underline-offset-8 decoration-red-500"
+              >
+                Profile
+              </li>
+            </ul>
+          </div>
+        )}
+
+        {/* 🚪 Right: Brand + Logout */}
+        <div className="flex items-center gap-6">
+          <div className="text-2xl font-extrabold text-red-500 tracking-widest">
+            FixIt<span className="text-white">.com</span>
+          </div>
           <button
             onClick={() => {
               localStorage.removeItem("token");
               navigate("/SPlogin");
             }}
-            className="mt-6 px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+            className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl shadow-lg transition duration-300 font-semibold"
           >
             Logout
           </button>
         </div>
-      ) : (
-        <p className="text-xl text-gray-700">Loading...</p>
-      )}
+      </nav>
+
+      {/* 🌌 Body Content Placeholder */}
+      <div className="flex items-center justify-center h-[80vh] text-gray-300 text-xl">
+        Welcome to your dashboard, {SP?.name || "Loading..."} 👨‍🔧
+      </div>
     </div>
   );
 }

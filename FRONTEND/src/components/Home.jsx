@@ -12,7 +12,12 @@ const Home = () => {
     const [showModal, setShowModal] = useState(false);
     const [servicMessage, setServicMessage] = useState("");
     const [selectedProvider, setSelectedProvider] = useState(null);
+    const [refreshKey, setRefreshKey] = useState(0); // 🔹 New state for forcing re-render
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setRefreshKey((prevKey) => prevKey + 1); // 🔹 Update state to trigger effect
+    }, []);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -38,13 +43,13 @@ const Home = () => {
             localStorage.removeItem("token");
             navigate("/");
         }
-    }, [navigate]);
+    }, [navigate, refreshKey]); // 🔹 Depend on refreshKey to re-run on refresh
 
     useEffect(() => {
         axios.get("https://fixit-g4s1.onrender.com/api/v1/ServiceProvider/get_SP")
             .then(response => setServiceProviders(response.data))
             .catch(error => console.error("Error fetching service providers", error));
-    }, []);
+    }, [refreshKey]); // 🔹 Re-fetch data when refreshed
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -71,7 +76,6 @@ const Home = () => {
         setServicMessage("");
     };
 
-
     const filteredProviders = serviceProviders.filter(provider => 
         provider.Occupation.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -80,14 +84,13 @@ const Home = () => {
         <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">
             {user ? (
                 <>
-               
                     <motion.div 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="flex items-center justify-between p-6 bg-gray-900/70 backdrop-blur-md rounded-xl shadow-lg border border-gray-700"
                     >
-                        <div className="flex items-center gap-6" >
+                        <div className="flex items-center gap-6">
                             <motion.img 
                                 src={user.profilePic} 
                                 alt="Profile"
@@ -100,21 +103,17 @@ const Home = () => {
                                 <p className="text-gray-400">{user.email}</p>
                             </div>
                         </div>
-                        
-                      
                         <input 
                             type="text" 
                             className="w-80 h-12 bg-gray-800/60 text-white placeholder-gray-500 px-4 rounded-full outline-none focus:ring-2 focus:ring-red-500 transition"
                             placeholder="Search occupation..."
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
-
                         <Navbar user={user} />
                         <h1 className="text-white text-3xl mr-10 font-bold cursor-pointer" onClick={handleLogout}>FixIt.com</h1>
                     </motion.div>
 
-                  
                     <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <AnimatePresence>
                             {filteredProviders.length > 0 ? (
@@ -131,12 +130,13 @@ const Home = () => {
                                             <img 
                                                 src={provider.Profile_imageUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${provider.name}`} 
                                                 alt={provider.name} 
-                                                className="w-20 h-20 rounded-full border-4 border-red-500 shadow-md "
+                                                className="w-20 h-20 rounded-full border-4 border-red-500 shadow-md"
                                             />
                                             <div>
                                                 <h3 className="text-lg font-semibold">{provider.name}</h3>
                                                 <p className="text-gray-400">{provider.Servicetype}</p>
                                                 <p className="text-gray-500">{provider.Occupation}</p>
+                                                <p className="text-amber-50">Price/Hr {provider.price}</p>
                                             </div>
                                         </div>
                                         <motion.button 
