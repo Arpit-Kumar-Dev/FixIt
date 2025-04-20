@@ -9,12 +9,14 @@ const userRouter = require("./routes/users.routs")
 const BookingRouter =require("./routes/booking.routs") 
 const SpRouter =require("./routes/SP.routs")
 const EmailRouter =require("./routes/Email.routs")
+const payment =require("./routes/Payment.routs")
 app.use(express.json())
 app.use(cors()); 
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/booking", BookingRouter)
 app.use("/api/v1/ServiceProvider", SpRouter)
 app.use("/api/v1/Mail", EmailRouter)
+app.use("/api/v1/Payment", payment)
 
 
 async function start() {

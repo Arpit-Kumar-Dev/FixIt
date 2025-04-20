@@ -1,9 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import FixitVideo from '../assets/fixitbg.mp4'
-import FixitVideo1 from '../assets/fixitbg2.mp4'
-import FixitVideo2 from '../assets/fixitbg3.mp4'
-import FixitVideo3 from '../assets/fixitbg4.mp4'
+const FixitVideo = 'https://arpitdevfixit.s3.eu-north-1.amazonaws.com/images/fixitbg.mp4'
+const FixitVideo1 = 'https://arpitdevfixit.s3.eu-north-1.amazonaws.com/images/fixitbg2.mp4'
+const FixitVideo2 ='https://arpitdevfixit.s3.eu-north-1.amazonaws.com/images/fixitbg3.mp4'
+const FixitVideo3 = 'https://arpitdevfixit.s3.eu-north-1.amazonaws.com/images/fixitbg4.mp4'
 
 export default function MainHome() {
   const navigate = useNavigate();

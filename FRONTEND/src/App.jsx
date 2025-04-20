@@ -25,7 +25,7 @@ function App() {
             <Route path="/SPLogin" element={<SPLogin/>}/>
             <Route path="/Sphome" element={<Sphome/>}/>
             <Route path="/bookings" element={<Booking/>}/>
-            <Route path="*" element={<Navigate to="/" />}/>
+            <Route path="*" element={<Navigate to="/"/>}/>
         </Routes>
     </Router>
 );
