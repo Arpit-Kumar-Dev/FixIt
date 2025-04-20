@@ -47,11 +47,12 @@ BookingSchema.statics.Userbookings= async (userId) =>{
 } 
 BookingSchema.statics.Get_All_service_provides_booking = async function (SpId) {
   try {
-      const bookings = await this.find({ serviceProviderId: SpId });
-      return bookings;
+    const objectId = new mongoose.Types.ObjectId(SpId); // cast it right!
+    const bookings = await this.find({ serviceProviderId: objectId });
+    return bookings;
   } catch (error) {
-      console.error("Error fetching bookings for service provider:", error);
-      throw new Error("Failed to fetch bookings");
+    console.error("Error fetching bookings for service provider:", error);
+    throw new Error("Failed to fetch bookings");
   }
 };
 

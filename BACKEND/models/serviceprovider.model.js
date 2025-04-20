@@ -140,6 +140,7 @@ serviceProviderSchema.statics.login = async function (email, password) {
     }
     return Sp
 }
+
 serviceProviderSchema.statics.Set_Price= async function (SP_ID,price){
     try {
         const result = await this.findOneAndUpdate(
@@ -162,5 +163,7 @@ serviceProviderSchema.statics.getAllServiceProviders = async ()=>{
    const all_providers = await ServiceProvider.find({})
    return all_providers
 }
+
+
 const ServiceProvider = mongoose.model('ServiceProvider', serviceProviderSchema);
 module.exports = ServiceProvider;
