@@ -40,24 +40,9 @@ const Booking = () => {
         }
     };
 
-    const handleChangeStatus = async (bookingId, currentStatus) => {
-        const newStatus = currentStatus === "Pending" ? "Confirmed" : "Pending";
-        try {
-            await axios.post(`https://fixit-g4s1.onrender.com/api/v1/booking/ChangeStatus`, { Id: bookingId, status: newStatus });
-            setBookings(prev => prev.map(booking =>
-                booking._id === bookingId ? { ...booking, status: newStatus } : booking
-            ));
-        } catch (error) {
-            console.error("Error updating booking status", error);
-        }
-    };
-
     const isDataLoaded = bookings.length > 0 && Object.keys(serviceProviders).length > 0;
-
     return (
         <div className="p-6 bg-gradient-to-br from-black via-gray-900 to-gray-800 min-h-screen">
-            
-            
             <motion.button
                 className="absolute top-6 left-6 flex items-center gap-2 text-red-400 hover:text-red-500 transition-all duration-300"
                 onClick={() => navigate(-1)}
@@ -67,7 +52,6 @@ const Booking = () => {
                 <FaArrowLeft size={20} />
                 <span className="text-lg font-semibold">Back</span>
             </motion.button>
-
             <motion.h2 
                 className="text-red-500 text-3xl font-bold mb-6 text-center"
                 initial={{ opacity: 0, y: -20 }}
@@ -76,7 +60,6 @@ const Booking = () => {
             >
                 Your Bookings
             </motion.h2>
-
             {isDataLoaded ? (
                 <motion.div 
                     className="flex flex-wrap gap-4 justify-center"
@@ -113,15 +96,6 @@ const Booking = () => {
                                     >
                                         <FaTimes /> Cancel
                                     </motion.button>
-
-                                    <motion.button 
-                                        onClick={() => handleChangeStatus(booking._id, booking.status)}
-                                        className="bg-yellow-500 text-black px-3 py-1 rounded-md flex items-center gap-2"
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                    >
-                                        <FaExchangeAlt /> Change Status
-                                    </motion.button>
                                 </div>
                             </motion.div>
                         );
@@ -149,5 +123,4 @@ const Booking = () => {
         </div>
     );
 };
-
 export default Booking;

@@ -1,35 +1,63 @@
 
 const mongoose = require("mongoose")
-const BookingSchema= new mongoose.Schema({
-        userId: { type:mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-        SPId: { type:mongoose.Schema.Types.ObjectId, ref: 'ServiceProvider', required: true },
-        service: { type: String, required: true },
-        status: { type: String, enum: ['Pending', 'Confirmed', 'Cancelled'], default: 'Pending' },
-},
-{
-        timestamps:true,
-})
+const BookingSchema = new mongoose.Schema({
+  user_id:{type:String},
+  Sp_id:{type:String},
+  service: String,
+  status: {
+    type: String,
+    enum: ["Pending", "Confirmed", "Completed"],
+    default: "Pending"
+  },
+  otp: String,
+  otpExpiresAt: Date,
+  customer: {
+    name: String,
+    email: String,
+    phone: Number,
+    address:[],
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" } // Optional
+  },
+ 
+}, { timestamps: true })
 
-BookingSchema.statics.CreateBooking = async(userId,SPId, service) =>{
-        try {
-          // Validate the inputs
-          if (!userId || !SPId ||!service) {
-            throw new Error("All fields (userId,SPId, service) are required.")
-          }
-      
-          // Create the booking
-          const newBooking = await BookingModel.create({
-            userId,
-            SPId,
-            service,
-          });
-      
-          return newBooking
-        } catch (error) {
-          console.error("Error creating booking:", error.message)
-          throw error
-        }
- }
+BookingSchema.statics.CreateBooking = async (userId, SPId, service) => {
+  try {
+    // Validate inputs
+    if (!userId || !SPId || !service) {
+      throw new Error("All fields (userId, SPId, service) are required.");
+    }
+
+    // Fetch customer details
+    const User = require("./user.model"); // adjust path if needed
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    // Construct booking with embedded customer info
+    const newBooking = await BookingModel.create({
+      user_id:userId,
+      Sp_id:SPId,
+      service,
+      customer: {
+        name: user.name,
+        email: user.email,
+        phone: user.phoneNumber,
+        address: user.address,
+        userId: user._id,
+      },
+      status: "Pending", // Optional default
+    });
+
+    return newBooking;
+  } catch (error) {
+    console.error("Error creating booking:", error.message);
+    throw error;
+  }
+};
+
 BookingSchema.statics.Userbookings= async (userId) =>{
   try {
     // Validate the inputs
@@ -48,7 +76,7 @@ BookingSchema.statics.Userbookings= async (userId) =>{
 BookingSchema.statics.Get_All_service_provides_booking = async function (SPId) {
   try {
      // cast it right!
-    const bookings = await BookingModel.find({ SPId: SPId });
+    const bookings = await BookingModel.find({ Sp_id: SPId });
     return bookings;
   } catch (error) {
     console.error("Error fetching bookings for service provider:", error);
