@@ -14,8 +14,9 @@ async function UserBooking(req,res){
 }
 async function get_all_service_providers_booking(req,res){
     const {SPId}=req.body
-    const sp_bookings= await Booking.Get_All_service_provides_booking(SPId)
-    res.json(sp_bookings)
+    const sp_bookings = await Booking.Get_All_service_provides_booking(SPId)
+    console.log(sp_bookings)
+    res.status(200).json(sp_bookings)
 }
 
 

@@ -35,9 +35,7 @@ export default function Sphome() {
       };
 
       setSP(spData);
-
-      // 🧾 Fetch bookings for this SP
-      fetchBookings(decoded._id);
+      fetchBookings(decoded._id); // Still calling with _id
     } catch (error) {
       localStorage.removeItem("token");
       navigate("/");
@@ -47,10 +45,11 @@ export default function Sphome() {
   const fetchBookings = async (spId) => {
     try {
       const response = await axios.post(
-        "https://fixit-g4s1.onrender.com/api/v1/booking/SPBookings",
-        { spId: spId } // Adjust this key according to your backend expectations
+        "http://localhost:8000/api/v1/booking/SPBookings",
+        { SpId: spId } 
       );
-      setBookings(response.data.bookings || []);
+      setBookings(response.data);
+      console.log("Fetched bookings:",response.data); 
     } catch (err) {
       console.error("Failed to fetch bookings:", err);
     }
@@ -58,6 +57,7 @@ export default function Sphome() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white">
+      {/* 🧭 Navbar */}
       <nav className="w-full px-10 py-5 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-md shadow-md z-50">
         {SP && (
           <div className="flex items-center gap-6">
@@ -105,8 +105,10 @@ export default function Sphome() {
         </div>
       </nav>
 
+      {/* 📦 Booking Cards */}
       <div className="p-10">
-        <h2 className="text-3xl font-bold text-red-500 mb-4">Bookings</h2>
+        <h2 className="text-3xl font-bold text-red-500 mb-6">Your Bookings</h2>
+
         {bookings.length === 0 ? (
           <p className="text-gray-400">No bookings found.</p>
         ) : (
@@ -117,10 +119,15 @@ export default function Sphome() {
                 className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700"
               >
                 <h3 className="text-xl font-semibold mb-2 text-white">
-                  {booking.serviceName}
+                  Service: {booking.service}
                 </h3>
-                <p className="text-gray-400">Client: {booking.clientName}</p>
-                <p className="text-gray-400">Date: {new Date(booking.date).toLocaleDateString()}</p>
+                <p className="text-gray-400">Booking ID: {booking._id}</p>
+                <p className="text-gray-400">
+                  Date:{" "}
+                  {booking.createdAt
+                    ? new Date(booking.createdAt).toLocaleDateString()
+                    : "N/A"}
+                </p>
                 <p className="text-gray-400">Status: {booking.status}</p>
               </div>
             ))}

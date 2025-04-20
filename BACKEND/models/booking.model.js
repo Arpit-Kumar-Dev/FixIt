@@ -48,7 +48,7 @@ BookingSchema.statics.Userbookings= async (userId) =>{
 BookingSchema.statics.Get_All_service_provides_booking = async function (SPId) {
   try {
      // cast it right!
-    const bookings = await BookingModel.find({ SPId });
+    const bookings = await BookingModel.find({ SPId: SPId });
     return bookings;
   } catch (error) {
     console.error("Error fetching bookings for service provider:", error);
