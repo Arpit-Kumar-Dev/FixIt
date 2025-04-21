@@ -3,6 +3,8 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaRupeeSign, FaTools, FaUserTie, FaMoneyCheckAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+// Vite
+const api = import.meta.env.RAZORPAY_API_KEY;
 
 export default function Payment() {
   const location = useLocation();
@@ -62,7 +64,7 @@ export default function Payment() {
       const { order } = orderResponse.data;
 
       const options = {
-        key: "rzp_test_ryBxHHiAWmycNe",
+        key: api,
         amount: order.amount,
         currency: order.currency,
         name: "FixIt.com",
