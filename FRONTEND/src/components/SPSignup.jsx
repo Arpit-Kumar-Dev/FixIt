@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaUser, FaEnvelope, FaLock, FaPhone, FaMapMarkerAlt, FaBriefcase, FaClipboardList, FaImage } from "react-icons/fa";
+import {
+    FaUser, FaEnvelope, FaLock, FaPhone, FaMapMarkerAlt, FaBriefcase,
+    FaClipboardList, FaImage
+} from "react-icons/fa";
 
 const SPSignup = () => {
     const [formData, setFormData] = useState({
@@ -32,7 +35,6 @@ const SPSignup = () => {
     };
 
     const handleFileChange = (e) => {
-        
         setProfileImage(e.target.files[0]);
     };
 
@@ -62,11 +64,11 @@ const SPSignup = () => {
             const res = await axios.post("https://fixit-g4s1.onrender.com/api/v1/ServiceProvider/singup", data, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-        
+
             localStorage.setItem("token", res.data.token);
             navigate("/Sphome");
         } catch (err) {
-            setError(`${err.response?.data?.message}` );
+            setError(`${err.response?.data?.message}`);
         } finally {
             setLoading(false);
         }
@@ -78,171 +80,95 @@ const SPSignup = () => {
                 <h2 className="text-red-500 text-3xl font-bold text-center mb-4">Service Provider Signup</h2>
                 {error && <p className="text-red-400 text-center mb-2">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Name Input */}
                     <div className="relative">
                         <FaUser className="absolute left-3 top-3 text-red-500" />
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Name"
+                        <input type="text" name="name" placeholder="Name"
                             className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
+                            value={formData.name} onChange={handleChange} required />
                     </div>
 
-                    {/* Email Input */}
                     <div className="relative">
                         <FaEnvelope className="absolute left-3 top-3 text-red-500" />
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
+                        <input type="email" name="email" placeholder="Email"
                             className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
+                            value={formData.email} onChange={handleChange} required />
                     </div>
 
-                    {/* Password Input */}
                     <div className="relative">
                         <FaLock className="absolute left-3 top-3 text-red-500" />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
+                        <input type="password" name="password" placeholder="Password"
                             className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
+                            value={formData.password} onChange={handleChange} required />
                     </div>
 
-                    {/* Phone Input */}
                     <div className="relative">
                         <FaPhone className="absolute left-3 top-3 text-red-500" />
-                        <input
-                            type="number"
-                            name="phoneNumber"
-                            placeholder="Phone"
+                        <input type="number" name="phoneNumber" placeholder="Phone"
                             className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                            value={formData.phoneNumber}
-                            onChange={handleChange}
-                            required
-                        />
+                            value={formData.phoneNumber} onChange={handleChange} required />
                     </div>
 
-                    {/* Address Inputs - Horizontal Layout */}
                     <label className="text-red-400 font-semibold">Address</label>
                     <div className="flex space-x-4">
-                        <div className="relative w-1/4">
-                            <FaMapMarkerAlt className="absolute left-3 top-3 text-red-500" />
-                            <input
-                                type="text"
-                                name="pincode"
-                                placeholder="Pincode"
-                                className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                value={formData.address.pincode}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="relative w-1/4">
-                            <input
-                                type="text"
-                                name="city"
-                                placeholder="City"
-                                className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                value={formData.address.city}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="relative w-1/4">
-                            <input
-                                type="text"
-                                name="state"
-                                placeholder="State"
-                                className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                value={formData.address.state}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="relative w-1/4">
-                            <input
-                                type="text"
-                                name="area"
-                                placeholder="Area"
-                                className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                value={formData.address.area}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+                        {["pincode", "city", "state", "area"].map((field, idx) => (
+                            <div className="relative w-1/4" key={idx}>
+                                {field === "pincode" && <FaMapMarkerAlt className="absolute left-3 top-3 text-red-500" />}
+                                <input
+                                    type="text" name={field} placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                                    className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    value={formData.address[field]} onChange={handleChange} required />
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Profile Image Input */}
                     <label className="text-red-400 font-semibold">Profile Picture</label>
                     <div className="relative">
                         <FaImage className="absolute left-3 top-3 text-red-500" />
                         <input
-                            type="file"
-                            onChange={handleFileChange}
+                            type="file" onChange={handleFileChange} required
                             className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                            accept="image/*"
-                            required
-                        />
+                            accept="image/*" />
                     </div>
 
-                    {/* Service Type Select - Horizontal Layout */}
                     <div className="relative w-1/2">
                         <FaBriefcase className="absolute left-3 top-3 text-red-500" />
-                        <select
-                            name="Servicetype"
-                            value={formData.Servicetype}
-                            onChange={handleChange}
-                            className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                        >
-                            {["Skilled Trades and Local Service Occupations", "Home and Personal Services", "Construction and Building Maintenance", "Other Local Services"].map((type) => (
-                                <option key={type} value={type} className="bg-gray-700">{type}</option>
-                            ))}
+                        <select name="Servicetype" value={formData.Servicetype} onChange={handleChange}
+                            className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                            {["Skilled Trades and Local Service Occupations", "Home and Personal Services", "Construction and Building Maintenance", "Other Local Services"]
+                                .map((type) => <option key={type} value={type} className="bg-gray-700">{type}</option>)}
                         </select>
                     </div>
 
-                    {/* Occupation Select - Horizontal Layout */}
                     <div className="relative w-1/2">
                         <FaClipboardList className="absolute left-3 top-3 text-red-500" />
-                        <select
-                            name="Ocupation"
-                            value={formData.Ocupation}
-                            onChange={handleChange}
-                            className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                        >
-                            {["Plumber", "Electrician", "Carpenter", "Welder", "Painter", "Mason", "HVAC Technician (Heating, Ventilation, and Air Conditioning)", "Roofer", "Mechanic"].map((occupation) => (
-                                <option key={occupation} value={occupation} className="bg-gray-700">{occupation}</option>
-                            ))}
+                        <select name="Ocupation" value={formData.Ocupation} onChange={handleChange}
+                            className="w-full pl-10 p-2 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                            {["Plumber", "Electrician", "Carpenter", "Welder", "Painter", "Mason", "HVAC Technician (Heating, Ventilation, and Air Conditioning)", "Roofer", "Mechanic"]
+                                .map((occupation) => <option key={occupation} value={occupation} className="bg-gray-700">{occupation}</option>)}
                         </select>
                     </div>
 
-                    {/* Service Description */}
-                    <textarea
-                        name="service_description"
-                        placeholder="Describe your services"
-                        value={formData.service_description}
-                        onChange={handleChange}
+                    <textarea name="service_description" placeholder="Describe your services"
+                        value={formData.service_description} onChange={handleChange}
                         className="w-full p-2 mt-3 bg-gray-800 text-white border border-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                        required
-                    />
+                        required />
 
-                    <button
-                        type="submit"
-                        className="w-full bg-red-600 text-white py-2 rounded-md font-semibold hover:bg-red-700 transition duration-300"
-                    >
+                    <button type="submit"
+                        className="w-full bg-red-600 text-white py-2 rounded-md font-semibold hover:bg-red-700 transition duration-300">
                         {loading ? "Signing up..." : "Signup"}
                     </button>
+
+                    {/* 🌟 Added Login Button Here */}
+                    <div className="text-center">
+                        <p className="text-white mb-2">Already have an account?</p>
+                        <button
+                            type="button"
+                            onClick={() => navigate("/Splogin")}
+                            className="bg-gray-800 text-red-500 border border-red-500 px-4 py-2 rounded-md hover:bg-red-700 hover:text-white transition duration-300"
+                        >
+                            Service Provider Login
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
