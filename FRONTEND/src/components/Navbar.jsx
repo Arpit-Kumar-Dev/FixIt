@@ -20,7 +20,7 @@ const Navbar = ({ user }) => {
           </button>
           <button
             className="text-white text-lg  hover:text-gray-200"
-            onClick={() => navigate("/payment")}
+            onClick={() => navigate("/Payment",{ state: { userId: user?.id } })}
           >
             Payment
           </button>

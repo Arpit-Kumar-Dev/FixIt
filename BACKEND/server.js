@@ -17,7 +17,7 @@ app.use("/api/v1/booking", BookingRouter)
 app.use("/api/v1/ServiceProvider", SpRouter)
 app.use("/api/v1/Mail", EmailRouter)
 app.use("/api/v1/Payment", payment)
-
+ 
 
 async function start() {
     try {

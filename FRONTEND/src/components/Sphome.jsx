@@ -131,7 +131,7 @@ export default function Sphome() {
               <li onClick={() => navigate("/Sphome")} className="cursor-pointer hover:text-red-500 hover:underline">
                 Dashboard
               </li>
-              <li onClick={() => navigate("/SPbookings")} className="cursor-pointer hover:text-red-500 hover:underline">
+              <li onClick={() => navigate("/Spcompletedbooking")} className="cursor-pointer hover:text-red-500 hover:underline">
                 Bookings
               </li>
               <li onClick={() => navigate("/SPprofile")} className="cursor-pointer hover:text-red-500 hover:underline">
@@ -218,7 +218,7 @@ export default function Sphome() {
                         value={selectedBookingId === booking._id ? otpInput : ""}
                         onChange={(e) => setOtpInput(e.target.value)}
                         placeholder="Enter OTP"
-                        className="mt-2 px-3 py-1 text-black rounded-md w-full"
+                        className="mt-2 px-3 py-1 text-black bg-amber-100 rounded-md w-full"
                       />
                       <div className="flex gap-2">
                         <motion.button

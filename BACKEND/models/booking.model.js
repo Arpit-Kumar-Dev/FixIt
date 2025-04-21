@@ -1,12 +1,21 @@
 
 const mongoose = require("mongoose")
+const twilio = require('twilio');
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioClient = twilio(accountSid, authToken);
+const twilioPhone = process.env.TWILIO_PHONE;
+
+
+
+
 const BookingSchema = new mongoose.Schema({
   user_id:{type:String},
   Sp_id:{type:String},
   service: String,
   status: {
     type: String,
-    enum: ["Pending", "Confirmed", "Completed"],
+    enum: ["Pending", "Confirmed", "Completed","Paid"], 
     default: "Pending"
   },
   otp: String,
@@ -66,7 +75,7 @@ BookingSchema.statics.Userbookings= async (userId) =>{
     }
 
     // Create the booking
-    const UserBookings = await BookingModel.find({userId});
+    const UserBookings = await BookingModel.find({user_id:userId});
     return UserBookings
   }catch (error) {
     console.error(`Error in finding booking of user ${userId}: `, error.message)
@@ -138,7 +147,83 @@ BookingSchema.statics.UpdateStatus = async (id, status) => {
     throw new Error("Failed to update booking status");
   }
 };
+BookingSchema.statics.sendOTP=async(bookingId)=>{
+  
+  try {
+    const booking = await BookingModel.findById(bookingId);
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
 
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+    booking.otp = otp;
+    booking.otpExpiresAt = otpExpiresAt;
+    await booking.save();
+
+    const messageBody = `Hello ${booking.customer.name}, your FixIt.com OTP is ${otp}. It expires in 5 minutes.`;
+
+    const phoneNumber = booking.customer.phone;
+    if (!phoneNumber) return json({ message: "Customer phone number not found" });
+
+    await twilioClient.messages.create({
+      body: messageBody,
+      from: twilioPhone,
+      to: `+91${phoneNumber}`
+    });
+
+   
+  } catch (error) {
+    console.error("Send OTP Error:", error);
+    return json({ message: "Something went sideways" });
+  }
+
+}
+BookingSchema.statics.verifyOTP= async (bookingId,otp) => {
+
+  try {
+    const booking = await BookingModel.findById(bookingId);
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+
+    if (!booking.otp || !booking.otpExpiresAt) {
+      return { message: "No OTP has been generated for this booking." };
+    }
+
+    const isOTPExpired = booking.otpExpiresAt < new Date();
+    const isOTPMatch = booking.otp === otp;
+
+    if (isOTPExpired) {
+      return { message: "OTP has expired. Please request a new one." };
+    }
+
+    if (!isOTPMatch) {
+      return { message: "Invalid OTP. Try again like your life depends on it." };
+    }
+
+    // Optional: Clear the OTP after successful verification
+    booking.otp = undefined;
+    booking.otpExpiresAt = undefined;
+    booking.status = "Completed";
+    await booking.save();
+
+    return { message: "OTP verified successfully. Booking marked as completed." };
+  } catch (error) {
+    console.error("OTP Verification Error:", error);
+    return { message: "Server broke. Probably had too much chai." };
+  }
+};
+BookingSchema.statics.get_all_service_providers_booking_completed=async(sp_id)=>{
+  try {
+    const completedBookings = await BookingModel.find({
+      $or: [{ SPId: sp_id }, { Sp_id: sp_id }, { sp_id: sp_id }],
+      status: "Completed"
+    });
+
+    return completedBookings;
+  } catch (error) {
+    console.error("Error fetching completed bookings:", error);
+    throw error;
+  }
+}
 const BookingModel = mongoose.model('Booking', BookingSchema)
 module.exports = BookingModel    
    

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaUserTie, FaTools, FaClock, FaTimes, FaExchangeAlt, FaArrowLeft } from "react-icons/fa";
+import { FaUserTie, FaTools, FaClock, FaTimes, FaArrowLeft, FaRupeeSign } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Booking = () => {
@@ -52,6 +52,7 @@ const Booking = () => {
                 <FaArrowLeft size={20} />
                 <span className="text-lg font-semibold">Back</span>
             </motion.button>
+
             <motion.h2 
                 className="text-red-500 text-3xl font-bold mb-6 text-center"
                 initial={{ opacity: 0, y: -20 }}
@@ -60,6 +61,7 @@ const Booking = () => {
             >
                 Your Bookings
             </motion.h2>
+
             {isDataLoaded ? (
                 <motion.div 
                     className="flex flex-wrap gap-4 justify-center"
@@ -68,7 +70,9 @@ const Booking = () => {
                     transition={{ duration: 0.8 }}
                 >
                     {bookings.map((booking) => {
-                        const provider = serviceProviders[booking.SPId];
+                        const provider = serviceProviders[booking.Sp_id];
+                        const price = provider?.price;
+
                         return (
                             <motion.div 
                                 key={booking._id} 
@@ -78,11 +82,20 @@ const Booking = () => {
                                 transition={{ duration: 0.5 }}
                             >
                                 <p className="text-white font-semibold flex items-center gap-2">
-                                    <FaUserTie className="text-red-500" /> Service Provider: {provider ? provider.name : "Unknown"}
+                                    <FaUserTie className="text-red-500" /> 
+                                    Service Provider: {provider ? provider.name : "Unknown"}
                                 </p>
+
                                 <p className="text-red-400 flex items-center gap-2">
                                     <FaTools /> Service: {booking.service}
                                 </p>
+
+                                {price && (
+                                    <p className="text-green-400 flex items-center gap-2">
+                                        <FaRupeeSign /> Price: ₹{price}
+                                    </p>
+                                )}
+
                                 <p className={`text-sm font-semibold flex items-center gap-2 ${booking.status === "Pending" ? "text-yellow-400" : "text-green-400"}`}>
                                     <FaClock /> Status: {booking.status}
                                 </p>
@@ -123,4 +136,5 @@ const Booking = () => {
         </div>
     );
 };
+
 export default Booking;

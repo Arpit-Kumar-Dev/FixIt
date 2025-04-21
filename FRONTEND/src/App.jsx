@@ -9,6 +9,8 @@ import Sphome from './components/Sphome'
 import Home from "./components/Home";
 import MainHome from './components/MainHome'
 import Login from './components/Login'
+import SPBooking from './components/SPBooking'
+import Payment from './components/Payment'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 function App() {
   const [count, setCount] = useState(0)
@@ -24,7 +26,9 @@ function App() {
             <Route path="/SPsignup" element={<SPSignup/>}/>
             <Route path="/SPLogin" element={<SPLogin/>}/>
             <Route path="/Sphome" element={<Sphome/>}/>
+            <Route path="/Spcompletedbooking" element={<SPBooking/>}/>
             <Route path="/bookings" element={<Booking/>}/>
+            <Route path="/Payment" element={<Payment/>}/>
             <Route path="*" element={<Navigate to="/"/>}/>
         </Routes>
     </Router>

@@ -43,4 +43,29 @@ async function GetAllBookings(req, res) {
     }
 }
 
-module.exports = {CreateBooking,UserBooking,get_all_service_providers_booking,DeleteBooking,UpdateStatus,GetAllBookings}
+async function sendOTP(req,res){
+    
+    try{
+        const { bookingId } = req.body;
+    const response =await Booking.sendOTP(bookingId)
+    res.status(200).json(response)
+    }catch(error){
+        res.status(500).json({ error: error.message });
+    }
+}
+async function verifyOTP(req,res){
+    
+    try{
+        const { bookingId, otp } = req.body;
+    const response =await Booking.verifyOTP(bookingId,otp)
+    res.status(200).json(response)
+    }catch(error){
+        res.status(500).json({ error: error.message });
+    }
+}
+async function get_all_service_providers_booking_completed(req,res) {
+    const {sp_id}=req.body
+    const completedbookings=await Booking.get_all_service_providers_booking_completed(sp_id)
+    res.status(200).json(completedbookings)
+}
+module.exports = {CreateBooking,UserBooking,get_all_service_providers_booking,get_all_service_providers_booking_completed,DeleteBooking,UpdateStatus,GetAllBookings,sendOTP,verifyOTP}
