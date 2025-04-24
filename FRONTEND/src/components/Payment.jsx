@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaRupeeSign, FaTools, FaUserTie, FaMoneyCheckAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 // Vite
-const api = import.meta.env.RAZORPAY_API_KEY;
+const api = import.meta.env.VITE_RAZORPAY_API_KEY
 
 export default function Payment() {
   const location = useLocation();
