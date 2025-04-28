@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 async function createToken(user) {
     console.log(user)
     return jwt.sign(
-        { _id: user._id, name: user.name, email: user.email,pincode:user.pincode ,imageURL: user.profileImageUrl}, 
+        { _id: user._id, name: user.name, email: user.email,pincode:user.address.pincode ,imageURL: user.profileImageUrl}, 
         process.env.SECRET, 
         { expiresIn: "1h" }
     );
