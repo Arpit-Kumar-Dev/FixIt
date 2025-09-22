@@ -3,8 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Navbar from "./Navbar";
-import { motion, AnimatePresence } from "framer-motion";
-
+import { motion, AnimatePresence, color } from "framer-motion";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import IconButton from "@mui/material/IconButton";
 const Home = () => {
     const [user, setUser] = useState(null);
     const [serviceProviders, setServiceProviders] = useState([]);
@@ -78,24 +85,25 @@ const Home = () => {
         setShowModal(false);
         setServicMessage("");
     };
-
-    // 🔥 Now filter by BOTH search and PIN CODE
-    const filteredProviders = serviceProviders.filter(provider => 
-        provider.Occupation.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        provider.Pincode === user?.pincode
+ 
+   const filteredProviders = serviceProviders.filter(provider => 
+        provider.Occupation.toLowerCase().includes(searchQuery.toLowerCase())
+        //  &&
+        // provider.address.pincode === user?.pincode
     );
+   
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">
+        <div className="min-h-screen  bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">
             {user ? (
                 <>
                     <motion.div 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="flex items-center justify-between p-6 bg-gray-900/70 backdrop-blur-md rounded-xl shadow-lg border border-gray-700"
+                        className="flex items-center justify-between p-6 pl-9 bg-gray-900/70 backdrop-blur-md rounded-full shadow-lg border border-gray-700"
                     >
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-6  ">
                             <motion.img 
                                 src={user.profilePic} 
                                 alt="Profile"
@@ -104,9 +112,10 @@ const Home = () => {
                                 whileHover={{ scale: 1.1 }}
                             />
                             <div>
+                                {/* <h1 className="text-xl font-semibold" >Wellcome</h1> */}
                                 <h2 className="text-xl font-semibold">{user.name}</h2>
-                                <p className="text-gray-400">{user.email}</p>
-                                <p className="text-sm text-gray-500">Pincode: {user.pincode}</p>
+                                {/* <p className="text-gray-400">{user.email}</p> */}
+                                {/* <p className="text-sm text-gray-500">Pincode: {user.pincode}</p> */}
                             </div>
                         </div>
                         <input 
@@ -125,7 +134,7 @@ const Home = () => {
                         </h1>
                     </motion.div>
 
-                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="mt-20 p-6 grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 gap-3">
                         <AnimatePresence>
                             {filteredProviders.length > 0 ? (
                                 filteredProviders.map(provider => (
@@ -134,10 +143,10 @@ const Home = () => {
                                         initial={{ opacity: 0, y: 30 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 20 }}
-                                        transition={{ duration: 0.5 }}
-                                        className="relative h-40 bg-gray-800/70 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                                        
+                                        // className="relative h-40 bg-gray-800/70 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-gray-700 transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
                                     >
-                                        <div className="flex items-center gap-4">
+                                        {/* <div className="flex items-center gap-4">
                                             <img 
                                                 src={provider.Profile_imageUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${provider.name}`} 
                                                 alt={provider.name} 
@@ -157,10 +166,49 @@ const Home = () => {
                                             className="absolute bottom-4 right-4 px-7 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200"
                                         >
                                             Book Now
-                                        </motion.button>
-                                    </motion.div>
-                                ))
-                            ) : (
+                                        </motion.button> */}
+                                        <Card sx={{ display: "flex", margin:"0px", flexDirection: "column",width:"384px", background:"rgba(31, 41, 55, 0.7) " ,color:"white",borderRadius:"13px",borderBottomLeftRadius:"55px" ,borderBottomRightRadius:"13px",transition: "all 0.1s ease","&:hover": {borderStyle: "solid",borderColor: "rgba(237, 56, 56, 1)",borderRadius: "13px",borderBottomLeftRadius:"55px",boxShadow: "0 0 15px 3px rgba(239,68,68,0.7)",}, }  }>
+                                            <CardMedia component="img" alt={provider.name || "Profile image"} sx={{ height: 150, objectFit: "cover" }} image={provider.Profile_imageUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${provider.name}`} />
+                                            <CardContent sx={{ flexGrow: 1 }}>
+
+            <Typography gutterBottom variant="h4" component="div">
+              {provider.name}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "white" }}>
+              {provider.Occupation || "No occupation listed"}
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              Price/Hr: ₹{provider.price}
+            </Typography>
+          </CardContent>
+           
+          <CardActions sx={{display:"flex",justifyContent:"center",borderTopLeftRadius:"51px",backgroundColor:"red"}}>
+            <IconButton sx={{
+                              width: 80,
+                              height: 80,
+                              marginRight:"140px",
+                              borderRadius: "50%",
+                              background: "linear-gradient(145deg, #222b36, #1b232d)",
+                              color: "white",
+                              "&:hover": {
+                              backgroundColor: "#d48e8eff",
+                              boxShadow: "0 0 15px 3px rgba(239,68,68,0.7)",
+                              border:"4px",
+                              borderBlockColor:"white",
+                              borderStyle:"solid"
+                              },
+                             }}
+                             >
+                                    <PersonOutlinedIcon sx={{ fontSize: "58px" }} />
+                            </IconButton>
+            <Button size="large" variant="contained" color="error" onClick={() => handleBooking(provider)} sx={{hight:"300px",width:"144px",borderRadius:"55px"}}>
+              Book Now
+            </Button>
+          </CardActions>
+        </Card>
+        </motion.div>
+        ))
+                  ) : (
                                 <motion.p 
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
@@ -176,6 +224,7 @@ const Home = () => {
                 <p className="text-center text-lg">Loading user data...</p>
             )}
 
+        {/* booking submit pop up code downside  */}
             <AnimatePresence>
                 {showModal && (
                     <motion.div 
@@ -195,7 +244,7 @@ const Home = () => {
                                 type="text" 
                                 value={servicMessage} 
                                 onChange={(e) => setServicMessage(e.target.value)} 
-                                className="w-full border p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 mb-4"
+                                className="w-full border p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 mb-4 "
                                 placeholder="Enter booking details..."
                             />
                             <div className="flex justify-end space-x-2">

@@ -11,15 +11,17 @@ import MainHome from './components/MainHome'
 import Login from './components/Login'
 import SPBooking from './components/SPBooking'
 import Payment from './components/Payment'
+import Seprate from './components/Seprate'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <Router>
         <Routes>
             <Route path="/" element={<MainHome/>}/>
             <Route path="/Home" element={<Home/>}/>
+            <Route path="/Seprate" element={<Seprate/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/Profile" element={<Profile/>}/>
